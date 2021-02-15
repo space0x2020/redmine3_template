@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  redmine:  # redmine3.4
+    build: ./redmine
+#    container_name: redmine3_template
+#    command: tail -f /dev/null
+    ports:
+      - "13004:3000"
+    depends_on:
+      - db
+    networks:
+      - default
+      - mynetwork01
+    environment:
+      TZ: Asia/Tokyo
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_DATABASE: redminedb
+      REDMINE_DB_USERNAME: redmineuser
+      REDMINE_DB_PASSWORD: redminepassword
+      REDMINE_PLUGINS_MIGRATE: "true"
+    volumes:
+      - "./volumes/files:/usr/src/redmine/files"
+      - "./volumes/plugins:/usr/src/redmine/plugins"
+#      - "./volumes/public/themes:/usr/src/redmine/public/themes"
+#      - "./volumes/db:/usr/src/redmine/db"
+#      - "sqlite3_redmine3:/usr/src/redmine/db"
+#    restart: always
+
+  db:
+    build: ./db
+    restart: always
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_DB: redminedb
+      POSTGRES_USER: redmineuser
+      POSTGRES_PASSWORD: redminepassword
+    volumes:
+      - "dbdatar3:/var/lib/postgresql/data"
+
+networks:
+  mynetwork01:
+    external: true
+
+volumes:
+  dbdatar3:
