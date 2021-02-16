@@ -4,8 +4,8 @@ FROM myredmine/myredmine3_04redmine
 #FROM ruby:2.6-slim-buster
 
 RUN set -eux; \
-        echo "---" >> ~/gemrc; \
-        echo ":ssl_verify_mode: 0" >> ~/.gemrc; \
+#        echo "---" >> ~/.gemrc; \
+#        echo ":ssl_verify_mode: 0" >> ~/.gemrc; \
         cd /usr/src/redmine; \
 # log to STDOUT (https://github.com/docker-library/redmine/issues/108)
         echo 'config.logger = Logger.new(STDOUT)' > config/additional_environment.rb; \
